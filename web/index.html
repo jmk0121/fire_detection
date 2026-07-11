@@ -237,13 +237,30 @@
           </div>
 
           <div class="scene-frame">
-            <div class="wind-ribbon">
-              <span>최대풍속</span>
-              <strong id="wind-label">-</strong>
+            <div class="plan-toolbar">
+              <div>
+                <span>도면</span>
+                <strong id="plan-title">1층 평면도</strong>
+              </div>
+              <div class="plan-tabs" aria-label="도면 선택">
+                <button type="button" data-plan="main-floor" class="is-active">1F</button>
+                <button type="button" data-plan="basement">B1</button>
+              </div>
             </div>
-            <div id="building-stack" class="building-stack"></div>
-            <div id="smoke-cloud" class="smoke-cloud"></div>
-            <div id="fire-marker" class="fire-marker" aria-label="화점"></div>
+
+            <div id="plan-canvas" class="plan-canvas">
+              <img id="plan-image" src="./assets/plans/main-floor.svg" alt="구 마산헌병 분견대 1층 평면도" />
+              <div id="smoke-cloud" class="smoke-cloud"></div>
+              <div id="fire-marker" class="fire-marker" aria-label="화점"></div>
+              <div class="entry-marker">ENTRY</div>
+              <div class="north-marker">N</div>
+            </div>
+
+            <div class="plan-readout">
+              <span>화점 <strong id="fire-location-readout">중앙부</strong></span>
+              <span>풍속 <strong id="wind-label">-</strong></span>
+              <span>도면 <strong>헌병분견대 DXF</strong></span>
+            </div>
           </div>
 
           <div class="command-summary">

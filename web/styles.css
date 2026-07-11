@@ -398,125 +398,153 @@ li::before {
   overflow: hidden;
   border: 1px solid var(--line-strong);
   border-radius: 0;
-  background:
-    linear-gradient(rgba(78, 143, 184, 0.08) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(78, 143, 184, 0.08) 1px, transparent 1px),
-    #0b1117;
-  background-size: 28px 28px;
+  background: #070c11;
 }
 
-.scene-frame::before {
-  content: "TACTICAL SCENE MAP";
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  color: var(--faint);
-  font-family: Consolas, "Courier New", monospace;
-  font-size: 11px;
-  letter-spacing: 0.08em;
+.plan-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  min-height: 42px;
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--line-strong);
+  background: #0d141b;
 }
 
-.wind-ribbon {
-  position: absolute;
-  top: 12px;
-  left: 12px;
-  z-index: 4;
-  display: grid;
-  gap: 2px;
-  min-width: 112px;
-  padding: 8px 9px;
-  border: 1px solid var(--line-strong);
-  background: #0f171f;
-}
-
-.wind-ribbon span {
+.plan-toolbar span,
+.plan-readout span {
   color: var(--muted);
   font-size: 11px;
   font-weight: 900;
 }
 
-.wind-ribbon strong {
+.plan-toolbar strong,
+.plan-readout strong {
   color: var(--white);
   font-family: Consolas, "Courier New", monospace;
-  font-size: 16px;
+  font-size: 12px;
 }
 
-.building-stack {
-  position: absolute;
-  right: 34px;
-  bottom: 34px;
-  width: min(220px, 58%);
-  display: grid;
-  gap: 3px;
-  align-items: end;
+.plan-tabs {
+  display: inline-grid;
+  grid-template-columns: repeat(2, 42px);
+  border: 1px solid var(--line-strong);
 }
 
-.building-stack::before {
-  content: "STRUCTURE";
-  position: absolute;
-  top: -24px;
-  left: 0;
+.plan-tabs button {
+  height: 26px;
+  border: 0;
+  border-right: 1px solid var(--line-strong);
   color: var(--muted);
+  background: #101821;
+  font-family: Consolas, "Courier New", monospace;
+  font-size: 12px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.plan-tabs button:last-child {
+  border-right: 0;
+}
+
+.plan-tabs button:hover,
+.plan-tabs button.is-active {
+  color: var(--white);
+  background: #263443;
+}
+
+.plan-canvas {
+  position: relative;
+  min-height: 332px;
+  overflow: hidden;
+  background:
+    linear-gradient(rgba(78, 143, 184, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(78, 143, 184, 0.07) 1px, transparent 1px),
+    #071017;
+  background-size: 28px 28px;
+}
+
+.plan-canvas::before {
+  content: "STRUCTURE PLAN / CAD OVERLAY";
+  position: absolute;
+  z-index: 2;
+  top: 10px;
+  left: 10px;
+  color: rgba(231, 237, 243, 0.56);
   font-family: Consolas, "Courier New", monospace;
   font-size: 11px;
+  font-weight: 800;
   letter-spacing: 0.08em;
 }
 
-.floor {
-  height: 30px;
-  border: 1px solid #51606e;
-  border-radius: 0;
-  background:
-    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.08) 0 16px, transparent 16px 30px),
-    #1b2631;
+.plan-canvas img {
+  position: absolute;
+  inset: 30px 14px 22px;
+  width: calc(100% - 28px);
+  height: calc(100% - 52px);
+  object-fit: contain;
+  opacity: 0.96;
+  filter: contrast(1.08);
 }
 
-.floor.is-fire {
-  border-color: #ff6a5d;
-  background:
-    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.1) 0 16px, transparent 16px 30px),
-    #4a1915;
-  box-shadow: inset 4px 0 0 var(--danger);
+.plan-readout {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  border-top: 1px solid var(--line-strong);
+  background: var(--line-strong);
+}
+
+.plan-readout span {
+  display: grid;
+  gap: 3px;
+  min-height: 45px;
+  padding: 8px 10px;
+  background: #0d141b;
 }
 
 .smoke-cloud {
   position: absolute;
-  right: 82px;
-  bottom: 205px;
-  width: 178px;
-  height: 118px;
-  border: 1px solid rgba(201, 154, 46, 0.45);
+  z-index: 4;
+  left: 55%;
+  top: 45%;
+  width: 190px;
+  height: 120px;
+  border: 1px solid rgba(201, 154, 46, 0.62);
   border-radius: 0;
   background:
-    repeating-linear-gradient(135deg, rgba(201, 154, 46, 0.16) 0 8px, rgba(0, 0, 0, 0) 8px 16px),
-    rgba(54, 50, 40, 0.48);
-  filter: none;
-  opacity: 0.55;
-  transform: skewX(-10deg);
+    repeating-linear-gradient(135deg, rgba(201, 154, 46, 0.18) 0 8px, rgba(0, 0, 0, 0) 8px 16px),
+    rgba(54, 50, 40, 0.5);
+  transform: translate(-50%, -50%) skewX(-8deg);
+  pointer-events: none;
 }
 
 .smoke-cloud::after {
-  content: "SMOKE";
+  content: "SMOKE AREA";
   position: absolute;
   top: 8px;
   left: 8px;
   color: #e0b24a;
   font-family: Consolas, "Courier New", monospace;
   font-size: 11px;
-  font-weight: 800;
+  font-weight: 900;
 }
 
 .fire-marker {
   position: absolute;
-  right: 112px;
-  bottom: 128px;
+  z-index: 5;
+  left: 58%;
+  top: 50%;
   width: 82px;
   height: 34px;
   border: 1px solid #ff6a5d;
   border-radius: 0;
-  background: rgba(143, 33, 25, 0.72);
-  box-shadow: 0 0 0 1px rgba(211, 58, 44, 0.25);
+  background: rgba(143, 33, 25, 0.82);
+  box-shadow: 0 0 0 1px rgba(211, 58, 44, 0.32);
+  transform: translate(-50%, -50%);
   transform-origin: center;
+  pointer-events: none;
 }
 
 .fire-marker::before,
@@ -529,7 +557,7 @@ li::before {
 .fire-marker::before {
   content: "";
   inset: -9px;
-  border: 1px solid rgba(211, 58, 44, 0.38);
+  border: 1px solid rgba(211, 58, 44, 0.44);
 }
 
 .fire-marker::after {
@@ -540,6 +568,34 @@ li::before {
   color: #ffe1dc;
   font-size: 11px;
   letter-spacing: 0.04em;
+}
+
+.entry-marker,
+.north-marker {
+  position: absolute;
+  z-index: 5;
+  border: 1px solid var(--blue);
+  color: #c7e9ff;
+  background: rgba(23, 50, 68, 0.82);
+  font-family: Consolas, "Courier New", monospace;
+  font-size: 11px;
+  font-weight: 900;
+  pointer-events: none;
+}
+
+.entry-marker {
+  left: 14px;
+  bottom: 16px;
+  padding: 6px 8px;
+}
+
+.north-marker {
+  right: 14px;
+  top: 14px;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
 }
 
 .command-summary {
@@ -609,8 +665,11 @@ li::before {
     min-height: 360px;
   }
 
-  .building-stack {
-    right: 22px;
-    width: 62%;
+  .plan-canvas {
+    min-height: 286px;
+  }
+
+  .plan-readout {
+    grid-template-columns: 1fr;
   }
 }

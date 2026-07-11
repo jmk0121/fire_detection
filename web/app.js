@@ -128,6 +128,37 @@ const PRESETS = {
 
 const form = document.querySelector("#incident-form");
 const presetButtons = document.querySelectorAll("[data-preset]");
+const planButtons = document.querySelectorAll("[data-plan]");
+let selectedPlan = "main-floor";
+
+const PLAN_CONFIG = {
+  "main-floor": {
+    title: "1층 평면도",
+    alt: "구 마산헌병 분견대 1층 평면도",
+    src: "./assets/plans/main-floor.svg",
+    location: "1층 중앙부",
+    entry: { left: "8%", top: "82%" },
+    markers: {
+      small: { left: "50%", top: "58%" },
+      visible: { left: "57%", top: "52%" },
+      large: { left: "63%", top: "46%" },
+      flashover: { left: "66%", top: "42%" },
+    },
+  },
+  basement: {
+    title: "지하 평면도",
+    alt: "구 마산헌병 분견대 지하평면도",
+    src: "./assets/plans/basement.svg",
+    location: "지하 동측 구획",
+    entry: { left: "12%", top: "84%" },
+    markers: {
+      small: { left: "54%", top: "62%" },
+      visible: { left: "61%", top: "56%" },
+      large: { left: "67%", top: "49%" },
+      flashover: { left: "72%", top: "44%" },
+    },
+  },
+};
 
 function toNumber(formData, key) {
   return Number(formData.get(key)) || 0;
@@ -398,21 +429,48 @@ function recommendResources(input, grade, totalScore) {
   };
 }
 
-function buildFloorStack(input) {
-  const stack = document.querySelector("#building-stack");
-  stack.innerHTML = "";
-  const visibleFloors = clamp(input.floors, 1, 10);
-  const fireIndex = clamp(input.fireFloor, 1, visibleFloors);
-
-  for (let i = visibleFloors; i >= 1; i -= 1) {
-    const floor = document.createElement("div");
-    floor.className = "floor";
-    if (i === fireIndex) {
-      floor.classList.add("is-fire");
-    }
-    floor.title = `${i}층`;
-    stack.appendChild(floor);
+function updatePlanView(input) {
+  if (input.fireFloor < 0) {
+    selectedPlan = "basement";
   }
+
+  const config = PLAN_CONFIG[selectedPlan] ?? PLAN_CONFIG["main-floor"];
+  const image = document.querySelector("#plan-image");
+  const title = document.querySelector("#plan-title");
+  const location = document.querySelector("#fire-location-readout");
+  const entry = document.querySelector(".entry-marker");
+  const fireMarker = document.querySelector("#fire-marker");
+  const smoke = document.querySelector("#smoke-cloud");
+
+  image.src = config.src;
+  image.alt = config.alt;
+  title.textContent = config.title;
+  location.textContent = selectedPlan === "basement" ? config.location : `${input.fireFloor}층 중앙부`;
+
+  entry.style.left = config.entry.left;
+  entry.style.top = config.entry.top;
+  entry.style.bottom = "auto";
+
+  const marker = config.markers[input.flameLevel] ?? config.markers.visible;
+  fireMarker.style.left = marker.left;
+  fireMarker.style.top = marker.top;
+
+  const smokeScale = {
+    light: { width: 120, height: 82, opacity: 0.28 },
+    medium: { width: 160, height: 105, opacity: 0.46 },
+    dense: { width: 210, height: 136, opacity: 0.72 },
+    zero: { width: 260, height: 166, opacity: 0.88 },
+  }[input.smokeLevel];
+
+  smoke.style.left = marker.left;
+  smoke.style.top = marker.top;
+  smoke.style.width = `${smokeScale.width}px`;
+  smoke.style.height = `${smokeScale.height}px`;
+  smoke.style.opacity = smokeScale.opacity;
+
+  planButtons.forEach((button) => {
+    button.classList.toggle("is-active", button.dataset.plan === selectedPlan);
+  });
 }
 
 function formatHa(value) {
@@ -457,25 +515,7 @@ function render(input, prediction) {
   renderList("#resource-list", resources.equipment);
   renderList("#risk-list", risks.length ? risks : ["현재 입력값 기준 특이 위험 요인은 낮음"]);
 
-  buildFloorStack(input);
-
-  const smoke = document.querySelector("#smoke-cloud");
-  const smokeOpacity = {
-    light: 0.28,
-    medium: 0.48,
-    dense: 0.72,
-    zero: 0.9,
-  }[input.smokeLevel];
-  smoke.style.opacity = smokeOpacity;
-
-  const fireMarker = document.querySelector("#fire-marker");
-  const fireScale = {
-    small: 0.75,
-    visible: 1,
-    large: 1.28,
-    flashover: 1.55,
-  }[input.flameLevel];
-  fireMarker.style.transform = `scale(${fireScale})`;
+  updatePlanView(input);
 
   const coreReasons = risks.slice(0, 4).join(", ");
   const commanderAlert =
@@ -536,6 +576,13 @@ form.addEventListener("change", update);
 
 presetButtons.forEach((button) => {
   button.addEventListener("click", () => applyPreset(button.dataset.preset));
+});
+
+planButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    selectedPlan = button.dataset.plan;
+    update();
+  });
 });
 
 applyPreset("spreading");
