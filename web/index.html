@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>화재 현장 지휘 보조 MVP</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">FIREGROUND COMMAND ASSIST</p>
+          <h1>화재 피해 규모 및 대응 자원 산정</h1>
+        </div>
+        <div class="status-strip" aria-label="시스템 상태">
+          <span class="status-dot"></span>
+          <span>MODEL MVP / FUNCTION 1</span>
+        </div>
+      </header>
+
+      <section class="notice">
+        <strong>작전 참고용</strong>
+        <span>현재 화면은 데모용 예측 보조 시스템입니다. 실제 지휘 판단은 현장 지휘관, SOP, 기관 안전 기준을 우선합니다.</span>
+      </section>
+
+      <section class="workspace">
+        <form id="incident-form" class="panel input-panel">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">INCIDENT INPUT</p>
+              <h2>현장 정보 입력</h2>
+            </div>
+            <div class="preset-group" aria-label="상황 프리셋">
+              <button type="button" data-preset="initial">초기</button>
+              <button type="button" data-preset="spreading">확산</button>
+              <button type="button" data-preset="critical">대형</button>
+            </div>
+          </div>
+
+          <div class="form-grid">
+            <label>
+              건물 용도
+              <select name="buildingUse">
+                <option value="residential">주거시설</option>
+                <option value="commercial" selected>상업시설</option>
+                <option value="factory">공장</option>
+                <option value="warehouse">창고/물류</option>
+                <option value="medical">병원/요양시설</option>
+                <option value="school">학교/공공시설</option>
+              </select>
+            </label>
+
+            <label>
+              건축 구조
+              <select name="structureType">
+                <option value="concrete">철근콘크리트</option>
+                <option value="steel">철골</option>
+                <option value="lightSteel">경량철골</option>
+                <option value="wood">목조</option>
+                <option value="sandwich" selected>샌드위치 패널</option>
+              </select>
+            </label>
+
+            <label>
+              전체 층수
+              <input name="floors" type="number" min="1" max="80" value="5" />
+            </label>
+
+            <label>
+              화재 발생 층
+              <input name="fireFloor" type="number" min="-5" max="80" value="2" />
+            </label>
+
+            <label>
+              지하층
+              <select name="hasBasement">
+                <option value="no" selected>없음</option>
+                <option value="yes">있음</option>
+              </select>
+            </label>
+
+            <label>
+              연면적
+              <div class="unit-field">
+                <input name="area" type="number" min="100" max="200000" value="3200" />
+                <span>m²</span>
+              </div>
+            </label>
+
+            <label>
+              재실자 규모
+              <select name="occupancy">
+                <option value="low">적음</option>
+                <option value="medium" selected>보통</option>
+                <option value="high">많음</option>
+                <option value="vulnerable">피난 취약자 있음</option>
+              </select>
+            </label>
+
+            <label>
+              화염 규모
+              <select name="flameLevel">
+                <option value="small">국소 화염</option>
+                <option value="visible" selected>외부 관찰 가능</option>
+                <option value="large">다층/대공간 화염</option>
+                <option value="flashover">급격 확산 징후</option>
+              </select>
+            </label>
+
+            <label>
+              연기 농도
+              <select name="smokeLevel">
+                <option value="light">옅음</option>
+                <option value="medium" selected>중간</option>
+                <option value="dense">농연</option>
+                <option value="zero">무시야</option>
+              </select>
+            </label>
+
+            <label>
+              연소 확대
+              <select name="spreadLevel">
+                <option value="contained">한 구역 내</option>
+                <option value="room" selected>실/층 단위</option>
+                <option value="floor">층 전체</option>
+                <option value="exposure">인접 건물 위협</option>
+              </select>
+            </label>
+
+            <label>
+              평균기온
+              <div class="unit-field">
+                <input name="avgTemp" type="number" min="-30" max="45" value="14" />
+                <span>℃</span>
+              </div>
+            </label>
+
+            <label>
+              평균습도
+              <div class="unit-field">
+                <input name="avgHumidity" type="number" min="0" max="100" value="32" />
+                <span>%</span>
+              </div>
+            </label>
+
+            <label>
+              강수량
+              <div class="unit-field">
+                <input name="rainfall" type="number" min="0" max="200" step="0.1" value="0" />
+                <span>mm</span>
+              </div>
+            </label>
+
+            <label>
+              최대풍속
+              <div class="unit-field">
+                <input name="maxWind" type="number" min="0" max="40" step="0.1" value="8.8" />
+                <span>m/s</span>
+              </div>
+            </label>
+
+            <label>
+              실효습도
+              <div class="unit-field">
+                <input name="effectiveHumidity" type="number" min="0" max="100" step="0.1" value="33.7" />
+                <span>%</span>
+              </div>
+            </label>
+
+            <label>
+              신고 후 경과
+              <div class="unit-field">
+                <input name="responseDelay" type="number" min="0" max="180" value="12" />
+                <span>분</span>
+              </div>
+            </label>
+          </div>
+        </form>
+
+        <section class="panel result-panel" aria-live="polite">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">RISK / RESOURCE OUTPUT</p>
+              <h2>분석 결과</h2>
+            </div>
+            <span id="grade-badge" class="grade-badge">계산 중</span>
+          </div>
+
+          <div class="risk-meter">
+            <div class="meter-head">
+              <span>종합 위험도</span>
+              <strong id="risk-score">0</strong>
+            </div>
+            <div class="meter-track">
+              <div id="risk-fill" class="meter-fill"></div>
+            </div>
+          </div>
+
+          <div class="metric-grid">
+            <div class="metric">
+              <span>예상 피해 영향면적</span>
+              <strong id="damage-range">-</strong>
+            </div>
+            <div class="metric">
+              <span>필요 대원</span>
+              <strong id="crew-count">-</strong>
+            </div>
+            <div class="metric">
+              <span>펌프/물탱크</span>
+              <strong id="engine-count">-</strong>
+            </div>
+            <div class="metric">
+              <span>구조/구급</span>
+              <strong id="rescue-count">-</strong>
+            </div>
+          </div>
+
+          <div class="resource-list">
+            <h3>추천 자원</h3>
+            <ul id="resource-list"></ul>
+          </div>
+
+          <div class="risk-list">
+            <h3>위험 요인</h3>
+            <ul id="risk-list"></ul>
+          </div>
+        </section>
+
+        <section class="panel visual-panel">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">TACTICAL VIEW</p>
+              <h2>현장 개요</h2>
+            </div>
+            <span id="mode-label" class="mode-label">상업시설</span>
+          </div>
+
+          <div class="scene-frame">
+            <div class="wind-ribbon">
+              <span>최대풍속</span>
+              <strong id="wind-label">-</strong>
+            </div>
+            <div id="building-stack" class="building-stack"></div>
+            <div id="smoke-cloud" class="smoke-cloud"></div>
+            <div id="fire-marker" class="fire-marker" aria-label="화점"></div>
+          </div>
+
+          <div class="command-summary">
+            <h3>지휘 알림</h3>
+            <p id="commander-alert">입력값 기준으로 분석 중입니다.</p>
+          </div>
+        </section>
+      </section>
+
+      <section class="panel copilot-panel">
+        <div class="panel-heading">
+          <div>
+            <p class="eyebrow">BRIEFING TEXT</p>
+            <h2>LLM 보고문 미리보기</h2>
+          </div>
+          <span class="explain-chip">근거 기반 요약</span>
+        </div>
+        <p id="copilot-text"></p>
+      </section>
+    </main>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
