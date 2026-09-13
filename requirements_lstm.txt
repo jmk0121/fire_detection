@@ -1,0 +1,11 @@
+numpy
+pandas
+scikit-learn==1.6.1
+joblib
+pyserial==3.5
+tensorflow
+fastapi>=0.115.5
+uvicorn>=0.32.1
+pydantic>=2.12.5
+python-dotenv>=1.0.1
+google-genai==2.23.0

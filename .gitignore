@@ -1,0 +1,9 @@
+fire_training_synthetic(1).csv
+live_lstm_predictions.csv
+fire_lstm.keras
+.env
+.env.*
+!.env.example
+__pycache__/
+.pytest_cache/
+live_llm_briefings.jsonl
