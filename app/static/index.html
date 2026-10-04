@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#151a21" />
+    <title>화재 현장 브리핑</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+    <script src="/static/app.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">핵심 상황으로 바로가기</a>
+
+    <header class="topbar">
+      <div class="topbar-inner">
+        <div class="brand">
+          <span class="brand-mark" aria-hidden="true">FD</span>
+          <h1>화재 현장 브리핑</h1>
+        </div>
+
+        <a href="/research" style="color:#ffcf78;font-weight:700;text-decoration:underline;text-underline-offset:4px">안전 연구실 ↗</a>
+        <time id="current-time" class="current-time">--:--:--</time>
+      </div>
+    </header>
+
+    <div id="error-banner" class="error-banner" role="alert" hidden>
+      <strong>연결 오류</strong><span id="error-message">연결 상태를 확인하십시오.</span>
+    </div>
+
+    <main id="main-content" class="dashboard" aria-busy="true">
+      <section class="command-grid" aria-label="핵심 상황">
+        <article id="grade-card" class="grade-card" data-grade="unknown" aria-live="polite" aria-atomic="true">
+          <div class="card-head"><span>피해등급</span></div>
+          <div class="grade-row">
+            <strong id="grade-code" class="grade-code">-</strong>
+            <div><p id="grade-label">분석 대기</p><p class="confidence">신뢰도 <strong id="confidence-value">--%</strong></p></div>
+          </div>
+          <div class="meter" aria-hidden="true"><span id="confidence-meter" style="width: 0%"></span></div>
+        </article>
+
+        <article class="briefing-card" aria-live="polite" aria-atomic="true">
+          <div class="card-head"><span>현장 요약</span></div>
+          <h2 id="briefing-headline">상황을 분석하고 있습니다.</h2>
+          <p id="situation-summary"></p>
+        </article>
+      </section>
+
+      <section class="sensor-strip" aria-labelledby="sensor-title">
+        <div class="strip-title"><h2 id="sensor-title">센서 · 최근 30초</h2></div>
+        <div class="sensor-item"><span>온도</span><p><strong id="temperature-value">--</strong><small>°C</small></p><em id="temperature-change">변화 --</em></div>
+        <div class="sensor-item"><span>습도</span><p><strong id="humidity-value">--</strong><small>%</small></p><em id="humidity-change">현재값</em></div>
+        <div class="sensor-item"><span>가스 1</span><p><strong id="gas1-value">--</strong><small>배</small></p><em id="gas1-change">변화 --</em></div>
+        <div class="sensor-item"><span>가스 2</span><p><strong id="gas2-value">--</strong><small>배</small></p><em id="gas2-change">변화 --</em></div>
+      </section>
+
+      <section class="response-grid">
+        <article class="action-card" aria-labelledby="actions-title">
+          <div class="section-head"><h2 id="actions-title">위험 징후·즉시 행동</h2></div>
+          <div id="guidance-list" class="guidance-list" aria-live="polite"><p class="empty-state">분석 결과를 기다리고 있습니다.</p></div>
+        </article>
+
+        <aside class="building-card" aria-labelledby="building-title">
+          <div class="section-head"><h2 id="building-title">대상 건물</h2></div>
+          <dl id="building-summary" class="building-summary">
+            <div><dt>구조</dt><dd>--</dd></div><div><dt>용도</dt><dd>--</dd></div><div><dt>층수</dt><dd>--</dd></div><div><dt>상태</dt><dd>--</dd></div>
+          </dl>
+        </aside>
+      </section>
+
+    </main>
+
+    <div id="loading-layer" class="loading-layer" role="status" aria-live="polite">
+      <span class="loading-spinner" aria-hidden="true"></span><span id="loading-message">분석 중</span>
+    </div>
+  </body>
+</html>

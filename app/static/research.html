@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#11171e"><title>안전 연구실 · Fire Detection</title>
+  <link rel="stylesheet" href="/static/research.css"><script src="/static/research.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#workspace">실험으로 바로가기</a>
+<header><a class="brand" href="/">FD<span>FIRE DETECTION</span></a><nav aria-label="페이지"><a href="/">현장 브리핑</a><a href="/research" aria-current="page">안전 연구실</a></nav><span class="tag">교육용 프로토타입</span></header>
+<main>
+  <section class="intro"><div><p class="eyebrow">SENSOR → INFERENCE → EVIDENCE</p><h1>센서가 말하는 위험의 징후</h1><p>공개 실험을 재생하며, 판단의 근거와 한계를 함께 확인합니다.</p></div><div class="intro-note"><strong>실측 데이터 기반 · 오프라인 재생</strong><span>3개 모듈은 서로 다른 실험입니다.<br>현장 안전 판정이나 출동용 시스템이 아닙니다.</span></div></section>
+  <div id="load-error" class="error" role="alert" hidden></div>
+  <section class="modules" aria-label="분석 모듈">
+    <button class="module active" data-module="flashover" aria-pressed="true"><span class="number">01</span><span><strong>플래시오버 징후</strong><small>고온층 온도 · 상승 추세</small></span><span class="arrow">↗</span></button>
+    <button class="module" data-module="position" aria-pressed="false"><span class="number">02</span><span><strong>대원 위치 추적</strong><small>관성 보행 추정 · 오차 검증</small></span><span class="arrow">↗</span></button>
+    <button class="module" data-module="collapse" aria-pressed="false"><span class="number">03</span><span><strong>구조 변형 징후</strong><small>변위 · 변형 속도</small></span><span class="arrow">↗</span></button>
+  </section>
+  <section id="workspace" class="workspace" tabindex="-1" aria-busy="true">
+    <div class="experiment-bar"><div><label for="experiment">재생할 실험</label><select id="experiment" disabled></select></div><p><span id="split" class="tag">데이터 준비 중</span><span id="data-kind"></span></p><a id="csv-link" class="text-link" href="#">분석 CSV ↓</a></div>
+    <div class="analysis-grid">
+      <article class="plot-card"><div class="section-title"><h2 id="plot-title">온도와 추세</h2><span id="time-label">0:00</span></div><div id="legend" class="legend"></div><svg id="chart" viewBox="0 0 800 335" role="img" aria-labelledby="chart-title chart-desc"><title id="chart-title">실험 데이터 차트</title><desc id="chart-desc">실험을 선택하면 표시됩니다.</desc></svg><p id="chart-note" class="caption"></p>
+      <div class="playback"><button id="play" type="button" disabled aria-label="실험 재생">▶ 재생</button><label class="sr-only" for="timeline">실험 재생 위치</label><input id="timeline" type="range" min="0" max="100" value="0" disabled><label class="sr-only" for="speed">재생 속도</label><select id="speed"><option value="10">10배속</option><option value="30" selected>30배속</option><option value="60">60배속</option></select></div><div class="timeline-label"><span>시작</span><button id="jump" type="button">주요 구간으로 이동 →</button><span id="duration">종료</span></div></article>
+      <aside class="decision"><div class="section-title"><h2>현재 판단</h2><span class="dot" aria-hidden="true"></span></div><div id="status" class="status" data-state="unknown"><span id="status-symbol" aria-hidden="true">○</span><strong id="status-text">준비 중</strong></div><p id="reason"></p><dl id="readings" class="readings"></dl><div class="boundary"><strong>이 판단의 범위</strong><p id="boundary"></p></div></aside>
+    </div>
+    <div class="lower-grid"><section class="evaluation"><div class="section-title"><h2>검증 결과</h2><span class="tag">전체 기록의 사후 평가</span></div><div id="metrics" class="metrics"></div><p id="metric-note" class="caption"></p></section><section class="event-card"><div class="section-title"><h2>이 시점까지의 변화</h2><span id="event-count"></span></div><ol id="events"></ol></section></div>
+    <details class="method" open><summary>어떤 원리로 판단하나요?</summary><div id="method-content"></div></details>
+    <details class="method"><summary>센서 구성과 간단한 프로토타입</summary><div class="sensor-grid"><div><h3>환경 노드</h3><p>고온용 열전대 여러 개 → 변환 모듈 → ESP32 → 서버. 연구 데이터의 고온층 온도는 열전대 배열에서 계산한 값입니다. 기존 실온 센서의 값을 그대로 대체할 수 없습니다.</p></div><div><h3>대원 노드</h3><p>IMU의 가속도로 걸음을 감지하고 자이로로 방향 변화를 누적합니다. 향후 UWB 거리 관측으로 누적 오차를 보정합니다. 기압은 층 변화 후보, 심박은 별도 생체 상태 정보로 둡니다.</p></div><div><h3>구조 노드</h3><p>상온 모형 보 + 변위 센서 + IMU → 휨과 진동 변화 기록. 이번 구현은 공개 실험의 변위만 판정에 사용합니다. 실제 건물은 구조형식·하중·센서 위치별 기준이 필요합니다.</p></div></div><div class="pipeline">센서와 시각·단위 → 데이터 품질 확인 → 모듈별 추론 → 근거·결측·경보 이력 → 지휘 화면</div><p class="caption">우선 상온 보행·모형으로 시연합니다. 통신 패킷에는 node_id, timestamp, sequence, unit, quality, battery를 포함하고, 3초 이상 새 패킷이 없으면 별도의 ‘통신 끊김’ 상태로 전환하는 구상입니다. 현재 화면은 저장 데이터 재생입니다.</p>
+    <div class="uwb-demo"><h3>UWB 원리 실험 · 합성 기하 예제</h3><p>앵커 A(0,0), B(10,0), C(0,10) m에 대한 거리를 입력하면 세 원의 교점을 최소제곱으로 구합니다. 실제 UWB 데이터가 아니며 위 보행 성능에는 포함되지 않습니다.</p><form id="uwb-form"><label>A 거리(m)<input id="range-a" type="number" min="0.01" max="100" step="any" value="5" required></label><label>B 거리(m)<input id="range-b" type="number" min="0.01" max="100" step="any" value="8.062257" required></label><label>C 거리(m)<input id="range-c" type="number" min="0.01" max="100" step="any" value="6.708204" required></label><button type="submit">위치 계산</button></form><output id="uwb-result" aria-live="polite">예제 위치: (3, 4) m. 계산 버튼으로 확인하세요.</output></div></details>
+  </section>
+  <section class="sources"><div class="section-title"><h2>데이터와 선행연구</h2><span>출처를 따라가고, 직접 재현하기</span></div><div id="sources" class="source-grid"></div><p class="caption">사용자 제공 선행연구: 「특수재난현장 진압대원의 안전을 위한 통합 지휘시스템에 관한 연구」(2015), 「소방대원 진압작전의 의사결정을 위한 붕괴예측시스템 개발」(2017). 센서 융합·위치 추적·구조 변화 감지를 참고했습니다. 붕괴 보고서의 −2.75는 가정값이므로 적용하지 않았습니다.</p></section>
+  <footer>센서 기반 위험 징후를 설명하는 통합 연구 도구 · 고등학생 탐구 프로젝트 <span>위험을 이해하는 기술, 근거를 확인하는 화면.</span></footer>
+</main>
+</body>
+</html>

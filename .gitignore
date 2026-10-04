@@ -6,4 +6,11 @@ fire_lstm.keras
 !.env.example
 __pycache__/
 .pytest_cache/
+.venv/
 live_llm_briefings.jsonl
+live_dashboard.json
+live_dashboard.json.tmp
+data/research/raw/
+tmp/
+server.log
+server-error.log

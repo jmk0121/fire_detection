@@ -11,7 +11,7 @@ import numpy as np
 import serial
 
 from app.config import Settings
-from app.schemas import SafetyBriefing, SensorSample
+from app.schemas import AnalysisResponse, SafetyBriefing, SensorSample
 from app.services.briefing import GeminiBriefingService
 from app.services.predictor import FirePredictor
 from app.services.safety_rules import SafetyRuleEngine
@@ -20,6 +20,7 @@ from app.services.sensor_summary import summarize_sensor_window
 
 LOG_PATH = "live_lstm_predictions.csv"
 BRIEFING_LOG_PATH = "live_llm_briefings.jsonl"
+DASHBOARD_SNAPSHOT_PATH = Path(__file__).resolve().parent / "live_dashboard.json"
 BAUD = 115200
 
 
@@ -125,6 +126,34 @@ def write_briefing_log(
         file.write(json.dumps(record, ensure_ascii=False) + "\n")
 
 
+def write_dashboard_snapshot(
+    context_row: int,
+    static_context: dict,
+    samples: list[SensorSample],
+    prediction,
+    briefing: SafetyBriefing | None,
+    sample_interval_seconds: float,
+) -> None:
+    """Atomically publish the latest ESP32 analysis for the web dashboard."""
+    snapshot = AnalysisResponse(
+        generated_at=datetime.now().astimezone(),
+        context_row=context_row,
+        static_context=static_context,
+        sensor_summary=summarize_sensor_window(
+            samples,
+            sample_interval_seconds,
+        ),
+        prediction=prediction,
+        briefing=briefing,
+    )
+    temporary_path = DASHBOARD_SNAPSHOT_PATH.with_suffix(".json.tmp")
+    temporary_path.write_text(
+        snapshot.model_dump_json(indent=2),
+        encoding="utf-8",
+    )
+    temporary_path.replace(DASHBOARD_SNAPSHOT_PATH)
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--port", required=True, help="예: COM6")
@@ -196,6 +225,7 @@ def main():
     pending_briefing_grade: str | None = None
     last_submitted_grade: str | None = None
     last_submitted_at = 0.0
+    latest_briefing: SafetyBriefing | None = None
 
     try:
         baseline1, baseline2 = collect_baseline(ser, args.baseline_seconds)
@@ -233,6 +263,7 @@ def main():
         while True:
             if briefing_future is not None and briefing_future.done():
                 briefing = briefing_future.result()
+                latest_briefing = briefing
                 print_briefing(briefing)
                 write_briefing_log(
                     args.row,
@@ -270,6 +301,10 @@ def main():
 
             samples = list(window)
             prediction = predictor.predict(samples, context)
+            summary = summarize_sensor_window(
+                samples,
+                settings.sensor_sample_interval_seconds,
+            )
             probs_text = " | ".join(
                 f"{label}={probability * 100:.1f}%"
                 for label, probability in prediction.probabilities.items()
@@ -312,10 +347,8 @@ def main():
                 or now - last_submitted_at >= llm_interval
             )
             if args.llm and briefing_future is None and should_generate:
-                summary = summarize_sensor_window(
-                    samples,
-                    settings.sensor_sample_interval_seconds,
-                )
+                if last_submitted_grade != prediction.grade_code:
+                    latest_briefing = None
                 operational_guidance = safety_rules.select(
                     context.values,
                     prediction,
@@ -331,6 +364,15 @@ def main():
                 pending_briefing_grade = prediction.grade_code
                 last_submitted_grade = prediction.grade_code
                 last_submitted_at = now
+
+            write_dashboard_snapshot(
+                context_row=args.row,
+                static_context=context.values,
+                samples=samples,
+                prediction=prediction,
+                briefing=latest_briefing,
+                sample_interval_seconds=settings.sensor_sample_interval_seconds,
+            )
 
     except KeyboardInterrupt:
         print("\n실시간 예측 종료")

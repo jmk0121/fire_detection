@@ -1,0 +1,438 @@
+{
+  "version": 1,
+  "experiments": [
+    {
+      "id": "flash-1",
+      "module": "flashover",
+      "title": "UL/NIST 화재 실험 1",
+      "split": "개발 확인",
+      "source_ids": [
+        "flashover_1"
+      ],
+      "kind": "실제 가스버너 화재 실험 · 열전대 기반 고온층 추정값",
+      "duration_s": 4650.0,
+      "description": "2012년 UL/NIST 환기 실험. 자연가스 버너와 천장 환기구를 조절한 별도 실험이며 실제 플래시오버 정답은 제공되지 않습니다.",
+      "channels": "Time [s], T_upper [°C]. 원본 누락 17개(Test 1)는 보간하지 않음.",
+      "thresholds": {
+        "temperature_c": 600,
+        "window_s": 60,
+        "horizon_s": 60,
+        "baseline_c": 400
+      },
+      "metrics": {
+        "first_600_s": null,
+        "eligible_windows": 286,
+        "lead_s": null,
+        "confusion": {
+          "trend": {
+            "tp": 0,
+            "fp": 1,
+            "fn": 0,
+            "tn": 285
+          },
+          "temperature_400": {
+            "tp": 0,
+            "fp": 47,
+            "fn": 0,
+            "tn": 239
+          }
+        },
+        "peak_c": 510.45,
+        "missing": 17
+      }
+    },
+    {
+      "id": "flash-2",
+      "module": "flashover",
+      "title": "UL/NIST 화재 실험 2",
+      "split": "분리 평가",
+      "source_ids": [
+        "flashover_2"
+      ],
+      "kind": "실제 가스버너 화재 실험 · 열전대 기반 고온층 추정값",
+      "duration_s": 2746.0,
+      "description": "2012년 UL/NIST 환기 실험. 자연가스 버너와 천장 환기구를 조절한 별도 실험이며 실제 플래시오버 정답은 제공되지 않습니다.",
+      "channels": "Time [s], T_upper [°C]. 원본 누락 17개(Test 1)는 보간하지 않음.",
+      "thresholds": {
+        "temperature_c": 600,
+        "window_s": 60,
+        "horizon_s": 60,
+        "baseline_c": 400
+      },
+      "metrics": {
+        "first_600_s": null,
+        "eligible_windows": 176,
+        "lead_s": null,
+        "confusion": {
+          "trend": {
+            "tp": 0,
+            "fp": 2,
+            "fn": 0,
+            "tn": 174
+          },
+          "temperature_400": {
+            "tp": 0,
+            "fp": 34,
+            "fn": 0,
+            "tn": 142
+          }
+        },
+        "peak_c": 542.84,
+        "missing": 0
+      }
+    },
+    {
+      "id": "flash-3",
+      "module": "flashover",
+      "title": "UL/NIST 화재 실험 3",
+      "split": "분리 평가",
+      "source_ids": [
+        "flashover_3"
+      ],
+      "kind": "실제 가스버너 화재 실험 · 열전대 기반 고온층 추정값",
+      "duration_s": 2670.0,
+      "description": "2012년 UL/NIST 환기 실험. 자연가스 버너와 천장 환기구를 조절한 별도 실험이며 실제 플래시오버 정답은 제공되지 않습니다.",
+      "channels": "Time [s], T_upper [°C]. 원본 누락 17개(Test 1)는 보간하지 않음.",
+      "thresholds": {
+        "temperature_c": 600,
+        "window_s": 60,
+        "horizon_s": 60,
+        "baseline_c": 400
+      },
+      "metrics": {
+        "first_600_s": null,
+        "eligible_windows": 171,
+        "lead_s": null,
+        "confusion": {
+          "trend": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "tn": 171
+          },
+          "temperature_400": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 0,
+            "tn": 171
+          }
+        },
+        "peak_c": 393.31,
+        "missing": 0
+      }
+    },
+    {
+      "id": "flash-4",
+      "module": "flashover",
+      "title": "UL/NIST 화재 실험 4",
+      "split": "분리 평가",
+      "source_ids": [
+        "flashover_4"
+      ],
+      "kind": "실제 가스버너 화재 실험 · 열전대 기반 고온층 추정값",
+      "duration_s": 4695.0,
+      "description": "2012년 UL/NIST 환기 실험. 자연가스 버너와 천장 환기구를 조절한 별도 실험이며 실제 플래시오버 정답은 제공되지 않습니다.",
+      "channels": "Time [s], T_upper [°C]. 원본 누락 17개(Test 1)는 보간하지 않음.",
+      "thresholds": {
+        "temperature_c": 600,
+        "window_s": 60,
+        "horizon_s": 60,
+        "baseline_c": 400
+      },
+      "metrics": {
+        "first_600_s": 3480.0,
+        "eligible_windows": 228,
+        "lead_s": 30.0,
+        "confusion": {
+          "trend": {
+            "tp": 2,
+            "fp": 1,
+            "fn": 2,
+            "tn": 223
+          },
+          "temperature_400": {
+            "tp": 2,
+            "fp": 0,
+            "fn": 2,
+            "tn": 224
+          }
+        },
+        "peak_c": 664.03,
+        "missing": 0
+      }
+    },
+    {
+      "id": "beam-7",
+      "module": "collapse",
+      "title": "NIST 강재 보 Test 7",
+      "split": "초기 60초 기준 보정",
+      "source_ids": [
+        "collapse"
+      ],
+      "kind": "실제 가열·하중 재하 실험",
+      "duration_s": 1885.1131,
+      "description": "6.2 m W16×26 강재 보의 변형 신호. 건물 전체 붕괴 확률이나 붕괴 시각을 예측한 결과가 아닙니다.",
+      "channels": "Test Time [s], VD1 수직 변위 [mm], tc17 보 온도 [°C]. tc17은 기체 온도가 아닙니다.",
+      "thresholds": {
+        "displacement_mm": 4.34027,
+        "rate_mm_min": 24.67012,
+        "reference_s": 60,
+        "persistence_s": 5,
+        "source": "Test7 initial 0–60 s; median + 6 × 1.4826 × MAD; design floors 3 mm, 0.5 mm/min"
+      },
+      "metrics": {
+        "first_anomaly_s": 1806.10836,
+        "max_displacement_mm": 113.16602,
+        "max_rate_mm_min": 93.72588,
+        "accuracy": null,
+        "limitation": "붕괴 정답 시점/비붕괴 대조군이 없어 정확도·리드타임은 계산하지 않음"
+      }
+    },
+    {
+      "id": "beam-8",
+      "module": "collapse",
+      "title": "NIST 강재 보 Test 8",
+      "split": "분리 적용",
+      "source_ids": [
+        "collapse"
+      ],
+      "kind": "실제 가열·하중 재하 실험",
+      "duration_s": 2322.13932,
+      "description": "6.2 m W16×26 강재 보의 변형 신호. 건물 전체 붕괴 확률이나 붕괴 시각을 예측한 결과가 아닙니다.",
+      "channels": "Test Time [s], VD1 수직 변위 [mm], tc17 보 온도 [°C]. tc17은 기체 온도가 아닙니다.",
+      "thresholds": {
+        "displacement_mm": 4.34027,
+        "rate_mm_min": 24.67012,
+        "reference_s": 60,
+        "persistence_s": 5,
+        "source": "Test7 initial 0–60 s; median + 6 × 1.4826 × MAD; design floors 3 mm, 0.5 mm/min"
+      },
+      "metrics": {
+        "first_anomaly_s": null,
+        "max_displacement_mm": 26.60112,
+        "max_rate_mm_min": 3.97216,
+        "accuracy": null,
+        "limitation": "붕괴 정답 시점/비붕괴 대조군이 없어 정확도·리드타임은 계산하지 않음"
+      }
+    },
+    {
+      "id": "beam-9",
+      "module": "collapse",
+      "title": "NIST 강재 보 Test 9",
+      "split": "분리 적용",
+      "source_ids": [
+        "collapse"
+      ],
+      "kind": "실제 가열·하중 재하 실험",
+      "duration_s": 1849.11094,
+      "description": "6.2 m W16×26 강재 보의 변형 신호. 건물 전체 붕괴 확률이나 붕괴 시각을 예측한 결과가 아닙니다.",
+      "channels": "Test Time [s], VD1 수직 변위 [mm], tc17 보 온도 [°C]. tc17은 기체 온도가 아닙니다.",
+      "thresholds": {
+        "displacement_mm": 4.34027,
+        "rate_mm_min": 24.67012,
+        "reference_s": 60,
+        "persistence_s": 5,
+        "source": "Test7 initial 0–60 s; median + 6 × 1.4826 × MAD; design floors 3 mm, 0.5 mm/min"
+      },
+      "metrics": {
+        "first_anomaly_s": 1824.10944,
+        "max_displacement_mm": 353.36107,
+        "max_rate_mm_min": 844.98466,
+        "accuracy": null,
+        "limitation": "붕괴 정답 시점/비붕괴 대조군이 없어 정확도·리드타임은 계산하지 않음"
+      }
+    },
+    {
+      "id": "walk-2",
+      "module": "position",
+      "title": "ULISS 보행 TEST 02",
+      "split": "보폭 보정 · 참가자 1",
+      "source_ids": [
+        "position"
+      ],
+      "kind": "실제 휴대형 IMU · 발 부착 INS 기준 추정궤적",
+      "duration_s": 163.99846,
+      "description": "평평하게 든 센서의 자연 보행. TEST 03은 사무실·계단 포함, TEST 04는 야외 숲길. 소방대원 포복·장비 착용 데이터가 아닙니다.",
+      "channels": "가속도 [m/s²], 회전 [rad/s], GPS tow+nano [s]. 자기장 단위·보정치 매칭 불명확으로 자력계는 사용하지 않음.",
+      "thresholds": {
+        "step_length_m": 0.68943,
+        "peak_m_s2": 1.0,
+        "refractory_s": 0.28,
+        "gyro_bias": 0.00305,
+        "heading_calibration_s": 10
+      },
+      "metrics": {
+        "mean_error_m": 10.89414,
+        "p95_error_m": 18.39556,
+        "end_error_m": 19.88248,
+        "evaluation_points": 308,
+        "steps": 322,
+        "limitation": "첫 40초 정지 보정 + 초기 10초 기준 방향 보정. 이후 기준 궤적은 오차 계산에만 사용. 기준도 INS 추정값이며 실내 소방 성능으로 일반화 불가."
+      }
+    },
+    {
+      "id": "walk-3",
+      "module": "position",
+      "title": "ULISS 보행 TEST 03",
+      "split": "분리 평가 · 참가자 1",
+      "source_ids": [
+        "position"
+      ],
+      "kind": "실제 휴대형 IMU · 발 부착 INS 기준 추정궤적",
+      "duration_s": 256.49574,
+      "description": "평평하게 든 센서의 자연 보행. TEST 03은 사무실·계단 포함, TEST 04는 야외 숲길. 소방대원 포복·장비 착용 데이터가 아닙니다.",
+      "channels": "가속도 [m/s²], 회전 [rad/s], GPS tow+nano [s]. 자기장 단위·보정치 매칭 불명확으로 자력계는 사용하지 않음.",
+      "thresholds": {
+        "step_length_m": 0.68943,
+        "peak_m_s2": 1.0,
+        "refractory_s": 0.28,
+        "gyro_bias": 0.00406,
+        "heading_calibration_s": 10
+      },
+      "metrics": {
+        "mean_error_m": 10.46461,
+        "p95_error_m": 24.40946,
+        "end_error_m": 28.11596,
+        "evaluation_points": 493,
+        "steps": 466,
+        "limitation": "첫 40초 정지 보정 + 초기 10초 기준 방향 보정. 이후 기준 궤적은 오차 계산에만 사용. 기준도 INS 추정값이며 실내 소방 성능으로 일반화 불가."
+      }
+    },
+    {
+      "id": "walk-4",
+      "module": "position",
+      "title": "ULISS 보행 TEST 04",
+      "split": "분리 평가 · 참가자 2",
+      "source_ids": [
+        "position"
+      ],
+      "kind": "실제 휴대형 IMU · 발 부착 INS 기준 추정궤적",
+      "duration_s": 282.99879,
+      "description": "평평하게 든 센서의 자연 보행. TEST 03은 사무실·계단 포함, TEST 04는 야외 숲길. 소방대원 포복·장비 착용 데이터가 아닙니다.",
+      "channels": "가속도 [m/s²], 회전 [rad/s], GPS tow+nano [s]. 자기장 단위·보정치 매칭 불명확으로 자력계는 사용하지 않음.",
+      "thresholds": {
+        "step_length_m": 0.68943,
+        "peak_m_s2": 1.0,
+        "refractory_s": 0.28,
+        "gyro_bias": 0.00622,
+        "heading_calibration_s": 10
+      },
+      "metrics": {
+        "mean_error_m": 16.27312,
+        "p95_error_m": 44.90661,
+        "end_error_m": 46.72971,
+        "evaluation_points": 546,
+        "steps": 486,
+        "limitation": "첫 40초 정지 보정 + 초기 10초 기준 방향 보정. 이후 기준 궤적은 오차 계산에만 사용. 기준도 INS 추정값이며 실내 소방 성능으로 일반화 불가."
+      }
+    }
+  ],
+  "sources": [
+    {
+      "id": "collapse",
+      "filename": "steel_beam.xlsx",
+      "url": "https://s3.amazonaws.com/nist-midas/1856/NFRL_LocalizedFireTest_SteelBeam_09012017.xlsx",
+      "landing": "https://doi.org/10.18434/mds2-1856",
+      "license": "https://www.nist.gov/open/license",
+      "kind": "실제 강재 보 실험",
+      "sha256": "47d7fa2900d322cf3d9414013e94365919c6e975cd0c68e7e1a46141ad54ee7f",
+      "bytes": 12620610,
+      "retrieved_at": "2026-10-03T13:16:27.916386+00:00",
+      "path": "data/research/raw/steel_beam.xlsx"
+    },
+    {
+      "id": "position",
+      "filename": "walking_bundle.zip",
+      "url": "https://entrepot.recherche.data.gouv.fr/api/access/datafiles/163262,163263",
+      "landing": "https://doi.org/10.57745/ZCBIIB",
+      "license": "https://spdx.org/licenses/etalab-2.0.html",
+      "kind": "실제 보행 센서",
+      "sha256": "8328d3ef6084bc4ef0008f3e05bb387157a7a5da20a4a0bc6ea4acda10ee9d4b",
+      "bytes": 27092953,
+      "retrieved_at": "2026-10-03T13:16:27.920134+00:00",
+      "path": "data/research/raw/walking_bundle.zip"
+    },
+    {
+      "id": "fire_license",
+      "filename": "firemodels_LICENSE.txt",
+      "url": "https://raw.githubusercontent.com/firemodels/exp/ae8a6fca191222d2c047903bdcf61fb49bfb3f41/LICENSE.md",
+      "landing": "https://github.com/firemodels/exp",
+      "license": "https://raw.githubusercontent.com/firemodels/exp/ae8a6fca191222d2c047903bdcf61fb49bfb3f41/LICENSE.md",
+      "kind": "원본 이용 고지",
+      "sha256": "38c542304b97afc4171a9b67866499eaf222509cab45c095ea69bf88d57755b7",
+      "bytes": 1828,
+      "retrieved_at": "2026-10-03T13:16:27.902186+00:00",
+      "path": "data/research/raw/firemodels_LICENSE.txt"
+    },
+    {
+      "id": "flashover_1",
+      "filename": "UL_NIST_Vents_Test_1.csv",
+      "url": "https://raw.githubusercontent.com/firemodels/exp/ae8a6fca191222d2c047903bdcf61fb49bfb3f41/UL_NIST_Vents/UL_NIST_Vents_Test_1.csv",
+      "landing": "https://github.com/firemodels/exp/tree/ae8a6fca191222d2c047903bdcf61fb49bfb3f41/UL_NIST_Vents",
+      "license": "https://raw.githubusercontent.com/firemodels/exp/ae8a6fca191222d2c047903bdcf61fb49bfb3f41/LICENSE.md",
+      "kind": "실제 화재 실험에서 산출한 고온층 온도",
+      "revision": "ae8a6fca191222d2c047903bdcf61fb49bfb3f41",
+      "sha256": "3b755e373ec93ce215464f0df63f413cfbc941b913131a2660b25744eebc7891",
+      "bytes": 123708,
+      "retrieved_at": "2026-10-03T13:16:27.904191+00:00",
+      "path": "data/research/raw/UL_NIST_Vents_Test_1.csv"
+    },
+    {
+      "id": "flashover_2",
+      "filename": "UL_NIST_Vents_Test_2.csv",
+      "url": "https://raw.githubusercontent.com/firemodels/exp/ae8a6fca191222d2c047903bdcf61fb49bfb3f41/UL_NIST_Vents/UL_NIST_Vents_Test_2.csv",
+      "landing": "https://github.com/firemodels/exp/tree/ae8a6fca191222d2c047903bdcf61fb49bfb3f41/UL_NIST_Vents",
+      "license": "https://raw.githubusercontent.com/firemodels/exp/ae8a6fca191222d2c047903bdcf61fb49bfb3f41/LICENSE.md",
+      "kind": "실제 화재 실험에서 산출한 고온층 온도",
+      "revision": "ae8a6fca191222d2c047903bdcf61fb49bfb3f41",
+      "sha256": "c2085c46bdcbf14ac74145d792212e6d8ab0198dd6d2d5dc2967d2997a411394",
+      "bytes": 70568,
+      "retrieved_at": "2026-10-03T13:16:27.904191+00:00",
+      "path": "data/research/raw/UL_NIST_Vents_Test_2.csv"
+    },
+    {
+      "id": "flashover_3",
+      "filename": "UL_NIST_Vents_Test_3.csv",
+      "url": "https://raw.githubusercontent.com/firemodels/exp/ae8a6fca191222d2c047903bdcf61fb49bfb3f41/UL_NIST_Vents/UL_NIST_Vents_Test_3.csv",
+      "landing": "https://github.com/firemodels/exp/tree/ae8a6fca191222d2c047903bdcf61fb49bfb3f41/UL_NIST_Vents",
+      "license": "https://raw.githubusercontent.com/firemodels/exp/ae8a6fca191222d2c047903bdcf61fb49bfb3f41/LICENSE.md",
+      "kind": "실제 화재 실험에서 산출한 고온층 온도",
+      "revision": "ae8a6fca191222d2c047903bdcf61fb49bfb3f41",
+      "sha256": "011ac325f544d09697ebc21a00a237cd820132ef354031f9a9dbbfc2bf535eb5",
+      "bytes": 70199,
+      "retrieved_at": "2026-10-03T13:16:27.904191+00:00",
+      "path": "data/research/raw/UL_NIST_Vents_Test_3.csv"
+    },
+    {
+      "id": "flashover_4",
+      "filename": "UL_NIST_Vents_Test_4.csv",
+      "url": "https://raw.githubusercontent.com/firemodels/exp/ae8a6fca191222d2c047903bdcf61fb49bfb3f41/UL_NIST_Vents/UL_NIST_Vents_Test_4.csv",
+      "landing": "https://github.com/firemodels/exp/tree/ae8a6fca191222d2c047903bdcf61fb49bfb3f41/UL_NIST_Vents",
+      "license": "https://raw.githubusercontent.com/firemodels/exp/ae8a6fca191222d2c047903bdcf61fb49bfb3f41/LICENSE.md",
+      "kind": "실제 화재 실험에서 산출한 고온층 온도",
+      "revision": "ae8a6fca191222d2c047903bdcf61fb49bfb3f41",
+      "sha256": "f7ce1689be603d12590d963327ba2407e95c83ba5bf4d1ee4caa944dcc5dcedd",
+      "bytes": 123913,
+      "retrieved_at": "2026-10-03T13:16:27.904191+00:00",
+      "path": "data/research/raw/UL_NIST_Vents_Test_4.csv"
+    },
+    {
+      "id": "walking.7z",
+      "path": "data/research/raw/walking.7z",
+      "sha256": "4c8915b835707ba70c412241ecba212f80e595316d53f2593e94c823dedfcab1",
+      "publisher_md5": "58f6ec6c40cc9feaf3b43d8bdea14184",
+      "bytes": 27082056,
+      "container": "walking_bundle.zip"
+    },
+    {
+      "id": "walking_readme.txt",
+      "path": "data/research/raw/walking_readme.txt",
+      "sha256": "01c599af45c1c318de52b3577d86892521617e71ddb65ff18616dd5a88e6e473",
+      "publisher_md5": "63813a767eae73ba1a463d4ce5be44d6",
+      "bytes": 4861,
+      "container": "walking_bundle.zip"
+    }
+  ],
+  "attribution": "원본: NIST / firemodels; Fu, Hanyuan · Université Gustave Eiffel / Recherche Data Gouv. 2026-10-03: 선택 채널 추출, 알고리즘 결과 및 검증 지표를 추가한 파생 자료.",
+  "independent_streams": true
+}

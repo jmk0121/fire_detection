@@ -91,7 +91,10 @@ class ServiceTests(unittest.TestCase):
         self.summary = summarize_sensor_window(sample_window(), 2)
         self.context = {
             "건물구조": "철근콘크리트조",
+            "장소대분류": "주거",
             "장소중분류": "공동주택",
+            "장소소분류": "다세대주택",
+            "지상층수": 4.0,
             "지하층수": 1.0,
             "다중이용업소여부": "N",
             "건물상태": "사용중",
@@ -124,6 +127,35 @@ class ServiceTests(unittest.TestCase):
         self.assertTrue(any("지하층" in item.title for item in guidance))
         self.assertTrue(any(item.id == "LOW_CONFIDENCE" for item in guidance))
         self.assertTrue(any(item.basis.startswith("소방청") for item in guidance))
+
+    def test_rule_engine_surfaces_fire_behavior_checks_for_rapid_rise(self) -> None:
+        engine = SafetyRuleEngine(
+            BASE_DIR / "data" / "approved_checklists.json",
+            low_confidence_threshold=0.65,
+        )
+        rapid_summary = summarize_sensor_window(
+            [
+                SensorSample(
+                    temperature=30 + index,
+                    humidity=50 - index,
+                    gas1_ratio=1 + index / 10,
+                    gas2_ratio=1 + index / 12,
+                )
+                for index in range(16)
+            ],
+            2,
+        )
+
+        guidance = engine.select(self.context, self.prediction, rapid_summary)
+
+        self.assertEqual(guidance[0].id, "BACKDRAFT_INDICATOR_CHECK")
+        self.assertEqual(guidance[1].id, "FLASHOVER_INDICATOR_CHECK")
+        self.assertEqual(guidance[2].id, "OCCUPANCY_EVACUATION")
+        self.assertIn("30초 온도", guidance[0].trigger)
+        self.assertIn("확인", guidance[0].title)
+        self.assertIn("공동주택", guidance[2].title)
+        self.assertIn("다세대주택", guidance[2].action)
+        self.assertIn("지하층", guidance[2].action)
 
     def test_gemini_receives_exact_static_context(self) -> None:
         client = FakeClient()
@@ -160,7 +192,8 @@ class ServiceTests(unittest.TestCase):
         self.assertEqual(result.source, "demo")
         self.assertIn("GEMINI_API_KEY", result.generation_note)
         self.assertEqual(result.operational_guidance, self.guidance)
-        self.assertIn("등급별 출력", result.situation_summary)
+        self.assertIn("주거·공동주택·다세대주택", result.situation_summary)
+        self.assertIn("피해등급 1", result.situation_summary)
         self.assertIn("철근콘크리트조", result.context_summary)
         self.assertIn("승인된 현장 확인", result.operational_summary)
 

@@ -1,0 +1,6 @@
+# Offline app runtime already uses numpy. The following read public source files.
+numpy>=1.26,<3
+pandas>=2,<3
+scipy>=1.11,<2
+openpyxl>=3.1,<4
+py7zr>=1.0,<2

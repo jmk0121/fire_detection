@@ -1,15 +1,24 @@
 from __future__ import annotations
 
 from functools import lru_cache
+from pathlib import Path
 
 from fastapi import FastAPI, HTTPException
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 
 from app.config import Settings
+from app.research_api import router as research_router
 from app.schemas import AnalyzeRequest, AnalysisResponse, HealthResponse
 from app.services.analysis import FireAnalysisService
 from app.services.briefing import GeminiBriefingService
 from app.services.predictor import FirePredictor
 from app.services.safety_rules import SafetyRuleEngine
+
+
+APP_DIR = Path(__file__).resolve().parent
+STATIC_DIR = APP_DIR / "static"
+LIVE_SNAPSHOT_PATH = APP_DIR.parent / "live_dashboard.json"
 
 
 app = FastAPI(
@@ -20,6 +29,9 @@ app = FastAPI(
         "Gemini 현장 브리핑을 생성하는 교육용 API"
     ),
 )
+
+app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
+app.include_router(research_router)
 
 
 @lru_cache
@@ -48,6 +60,16 @@ def get_analysis_service() -> FireAnalysisService:
     )
 
 
+@app.get("/", include_in_schema=False)
+def dashboard() -> FileResponse:
+    return FileResponse(STATIC_DIR / "index.html")
+
+
+@app.get("/research", include_in_schema=False)
+def research_dashboard() -> FileResponse:
+    return FileResponse(STATIC_DIR / "research.html")
+
+
 @app.get("/api/v1/health", response_model=HealthResponse)
 def health() -> HealthResponse:
     settings = get_settings()
@@ -58,6 +80,25 @@ def health() -> HealthResponse:
         gemini_configured=settings.llm_enabled and bool(settings.gemini_api_key),
         gemini_model=settings.gemini_model,
     )
+
+
+@app.get("/api/v1/live", response_model=AnalysisResponse)
+def live_snapshot() -> AnalysisResponse:
+    if not LIVE_SNAPSHOT_PATH.exists():
+        raise HTTPException(
+            status_code=404,
+            detail="아직 ESP32 실시간 분석 데이터가 없습니다.",
+        )
+
+    try:
+        return AnalysisResponse.model_validate_json(
+            LIVE_SNAPSHOT_PATH.read_text(encoding="utf-8")
+        )
+    except (OSError, ValueError) as error:
+        raise HTTPException(
+            status_code=503,
+            detail="실시간 분석 데이터를 읽는 중입니다. 잠시 후 다시 시도하세요.",
+        ) from error
 
 
 @app.post("/api/v1/analyze", response_model=AnalysisResponse)

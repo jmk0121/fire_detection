@@ -1,0 +1,106 @@
+[
+  {
+    "id": "collapse",
+    "filename": "steel_beam.xlsx",
+    "url": "https://s3.amazonaws.com/nist-midas/1856/NFRL_LocalizedFireTest_SteelBeam_09012017.xlsx",
+    "landing": "https://doi.org/10.18434/mds2-1856",
+    "license": "https://www.nist.gov/open/license",
+    "kind": "실제 강재 보 실험",
+    "sha256": "47d7fa2900d322cf3d9414013e94365919c6e975cd0c68e7e1a46141ad54ee7f",
+    "bytes": 12620610,
+    "retrieved_at": "2026-10-03T13:16:27.916386+00:00",
+    "path": "data/research/raw/steel_beam.xlsx"
+  },
+  {
+    "id": "position",
+    "filename": "walking_bundle.zip",
+    "url": "https://entrepot.recherche.data.gouv.fr/api/access/datafiles/163262,163263",
+    "landing": "https://doi.org/10.57745/ZCBIIB",
+    "license": "https://spdx.org/licenses/etalab-2.0.html",
+    "kind": "실제 보행 센서",
+    "sha256": "8328d3ef6084bc4ef0008f3e05bb387157a7a5da20a4a0bc6ea4acda10ee9d4b",
+    "bytes": 27092953,
+    "retrieved_at": "2026-10-03T13:16:27.920134+00:00",
+    "path": "data/research/raw/walking_bundle.zip"
+  },
+  {
+    "id": "fire_license",
+    "filename": "firemodels_LICENSE.txt",
+    "url": "https://raw.githubusercontent.com/firemodels/exp/ae8a6fca191222d2c047903bdcf61fb49bfb3f41/LICENSE.md",
+    "landing": "https://github.com/firemodels/exp",
+    "license": "https://raw.githubusercontent.com/firemodels/exp/ae8a6fca191222d2c047903bdcf61fb49bfb3f41/LICENSE.md",
+    "kind": "원본 이용 고지",
+    "sha256": "38c542304b97afc4171a9b67866499eaf222509cab45c095ea69bf88d57755b7",
+    "bytes": 1828,
+    "retrieved_at": "2026-10-03T13:16:27.902186+00:00",
+    "path": "data/research/raw/firemodels_LICENSE.txt"
+  },
+  {
+    "id": "flashover_1",
+    "filename": "UL_NIST_Vents_Test_1.csv",
+    "url": "https://raw.githubusercontent.com/firemodels/exp/ae8a6fca191222d2c047903bdcf61fb49bfb3f41/UL_NIST_Vents/UL_NIST_Vents_Test_1.csv",
+    "landing": "https://github.com/firemodels/exp/tree/ae8a6fca191222d2c047903bdcf61fb49bfb3f41/UL_NIST_Vents",
+    "license": "https://raw.githubusercontent.com/firemodels/exp/ae8a6fca191222d2c047903bdcf61fb49bfb3f41/LICENSE.md",
+    "kind": "실제 화재 실험에서 산출한 고온층 온도",
+    "revision": "ae8a6fca191222d2c047903bdcf61fb49bfb3f41",
+    "sha256": "3b755e373ec93ce215464f0df63f413cfbc941b913131a2660b25744eebc7891",
+    "bytes": 123708,
+    "retrieved_at": "2026-10-03T13:16:27.904191+00:00",
+    "path": "data/research/raw/UL_NIST_Vents_Test_1.csv"
+  },
+  {
+    "id": "flashover_2",
+    "filename": "UL_NIST_Vents_Test_2.csv",
+    "url": "https://raw.githubusercontent.com/firemodels/exp/ae8a6fca191222d2c047903bdcf61fb49bfb3f41/UL_NIST_Vents/UL_NIST_Vents_Test_2.csv",
+    "landing": "https://github.com/firemodels/exp/tree/ae8a6fca191222d2c047903bdcf61fb49bfb3f41/UL_NIST_Vents",
+    "license": "https://raw.githubusercontent.com/firemodels/exp/ae8a6fca191222d2c047903bdcf61fb49bfb3f41/LICENSE.md",
+    "kind": "실제 화재 실험에서 산출한 고온층 온도",
+    "revision": "ae8a6fca191222d2c047903bdcf61fb49bfb3f41",
+    "sha256": "c2085c46bdcbf14ac74145d792212e6d8ab0198dd6d2d5dc2967d2997a411394",
+    "bytes": 70568,
+    "retrieved_at": "2026-10-03T13:16:27.904191+00:00",
+    "path": "data/research/raw/UL_NIST_Vents_Test_2.csv"
+  },
+  {
+    "id": "flashover_3",
+    "filename": "UL_NIST_Vents_Test_3.csv",
+    "url": "https://raw.githubusercontent.com/firemodels/exp/ae8a6fca191222d2c047903bdcf61fb49bfb3f41/UL_NIST_Vents/UL_NIST_Vents_Test_3.csv",
+    "landing": "https://github.com/firemodels/exp/tree/ae8a6fca191222d2c047903bdcf61fb49bfb3f41/UL_NIST_Vents",
+    "license": "https://raw.githubusercontent.com/firemodels/exp/ae8a6fca191222d2c047903bdcf61fb49bfb3f41/LICENSE.md",
+    "kind": "실제 화재 실험에서 산출한 고온층 온도",
+    "revision": "ae8a6fca191222d2c047903bdcf61fb49bfb3f41",
+    "sha256": "011ac325f544d09697ebc21a00a237cd820132ef354031f9a9dbbfc2bf535eb5",
+    "bytes": 70199,
+    "retrieved_at": "2026-10-03T13:16:27.904191+00:00",
+    "path": "data/research/raw/UL_NIST_Vents_Test_3.csv"
+  },
+  {
+    "id": "flashover_4",
+    "filename": "UL_NIST_Vents_Test_4.csv",
+    "url": "https://raw.githubusercontent.com/firemodels/exp/ae8a6fca191222d2c047903bdcf61fb49bfb3f41/UL_NIST_Vents/UL_NIST_Vents_Test_4.csv",
+    "landing": "https://github.com/firemodels/exp/tree/ae8a6fca191222d2c047903bdcf61fb49bfb3f41/UL_NIST_Vents",
+    "license": "https://raw.githubusercontent.com/firemodels/exp/ae8a6fca191222d2c047903bdcf61fb49bfb3f41/LICENSE.md",
+    "kind": "실제 화재 실험에서 산출한 고온층 온도",
+    "revision": "ae8a6fca191222d2c047903bdcf61fb49bfb3f41",
+    "sha256": "f7ce1689be603d12590d963327ba2407e95c83ba5bf4d1ee4caa944dcc5dcedd",
+    "bytes": 123913,
+    "retrieved_at": "2026-10-03T13:16:27.904191+00:00",
+    "path": "data/research/raw/UL_NIST_Vents_Test_4.csv"
+  },
+  {
+    "id": "walking.7z",
+    "path": "data/research/raw/walking.7z",
+    "sha256": "4c8915b835707ba70c412241ecba212f80e595316d53f2593e94c823dedfcab1",
+    "publisher_md5": "58f6ec6c40cc9feaf3b43d8bdea14184",
+    "bytes": 27082056,
+    "container": "walking_bundle.zip"
+  },
+  {
+    "id": "walking_readme.txt",
+    "path": "data/research/raw/walking_readme.txt",
+    "sha256": "01c599af45c1c318de52b3577d86892521617e71ddb65ff18616dd5a88e6e473",
+    "publisher_md5": "63813a767eae73ba1a463d4ce5be44d6",
+    "bytes": 4861,
+    "container": "walking_bundle.zip"
+  }
+]

@@ -3,7 +3,27 @@
     "title": "교육용 현장 대응 참고 항목",
     "source": "소방청 재난현장 표준작전절차 및 표준작전절차 안전관리기법",
     "source_url": "https://daegu.go.kr/cmsh/daegu.go.kr/119/files/%EC%9E%AC%EB%82%9C%ED%98%84%EC%9E%A5%ED%91%9C%EC%A4%80%EC%9E%91%EC%A0%84%EC%A0%88%EC%B0%A8.pdf",
+    "fire_behavior_sources": [
+      "https://nvlpubs.nist.gov/nistpubs/TechnicalNotes/NIST.TN.2183.pdf",
+      "https://apps.usfa.fema.gov/ax/sm/sm_0457.pdf"
+    ],
     "notice": "현장지휘관의 상황평가와 명령을 대체하지 않는 교육용 요약"
+  },
+  "BACKDRAFT_INDICATOR_CHECK": {
+    "priority": "즉시",
+    "category": "백드래프트 주의",
+    "title": "백드래프트 가능 징후 확인",
+    "action": "문·창 개방과 진입을 보류하고 개구부 정면을 피한 뒤, 검댕 낀 창·유리 균열·맥동성 짙은 연기·화염 부재를 외부 확인해 지휘관에게 즉시 보고합니다.",
+    "rationale": "온도와 가스 비율의 동시 급상승은 추가 확인이 필요한 선별 신호이지만, 산소농도·구획 밀폐·개구부 상태가 없어 백드래프트 발생을 확정할 수 없습니다.",
+    "basis": "NIST TN 2183·USFA SM 0457·소방청 SOP 201"
+  },
+  "FLASHOVER_INDICATOR_CHECK": {
+    "priority": "즉시",
+    "category": "플래시오버 주의",
+    "title": "플래시오버 전조 확인",
+    "action": "열기 급증·상층부 화염·가연물 발연·방수 직후 증기화를 확인하고, 징후가 있으면 즉시 전파한 뒤 퇴로와 호스라인을 확보해 진입 지속 여부를 재평가합니다.",
+    "rationale": "짧은 구간의 온도와 가스 비율 동시 상승은 급격한 화재 성장 가능성을 선별하지만 센서 위치 밖 구획의 플래시오버를 판정하지 못합니다.",
+    "basis": "USFA SM 0457·소방청 SSG 3·SSG 4"
   },
   "INITIAL_SIZE_UP": {
     "priority": "즉시",

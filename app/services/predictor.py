@@ -1,5 +1,9 @@
 from __future__ import annotations
 
+import json
+import logging
+import tempfile
+import zipfile
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Sequence
@@ -9,6 +13,9 @@ import numpy as np
 import pandas as pd
 
 from app.schemas import PredictionResult, SensorSample
+
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass(frozen=True)
@@ -26,6 +33,63 @@ def _json_value(value: Any) -> Any:
     if isinstance(value, np.generic):
         return value.item()
     return value
+
+
+def _remove_unsupported_keras_config(value: Any) -> None:
+    """Make newer Keras config fields readable by the installed runtime."""
+    if isinstance(value, dict):
+        if value.get("class_name") == "GlorotUniform":
+            config = value.get("config")
+            if isinstance(config, dict):
+                config.pop("input_axes", None)
+                config.pop("output_axes", None)
+        config = value.get("config")
+        if isinstance(config, dict) and config.get("quantization_config") is None:
+            config.pop("quantization_config", None)
+        for child in value.values():
+            _remove_unsupported_keras_config(child)
+    elif isinstance(value, list):
+        for child in value:
+            _remove_unsupported_keras_config(child)
+
+
+def _write_compatible_model_archive(source_path: Path, target_path: Path) -> None:
+    with zipfile.ZipFile(source_path, "r") as source:
+        config = json.loads(source.read("config.json"))
+        _remove_unsupported_keras_config(config)
+
+        with zipfile.ZipFile(target_path, "w") as target:
+            for info in source.infolist():
+                content = (
+                    json.dumps(config, ensure_ascii=False).encode("utf-8")
+                    if info.filename == "config.json"
+                    else source.read(info.filename)
+                )
+                target.writestr(info, content)
+
+
+def _load_keras_model(tf: Any, model_path: Path) -> Any:
+    try:
+        return tf.keras.models.load_model(model_path, compile=False)
+    except TypeError as error:
+        if "input_axes" not in str(error) and "output_axes" not in str(error):
+            raise
+
+        logger.warning(
+            "저장된 Keras 모델의 initializer 축 설정을 현재 런타임에 맞게 "
+            "임시 변환해 불러옵니다."
+        )
+        temporary_file = tempfile.NamedTemporaryFile(
+            suffix=".keras",
+            delete=False,
+        )
+        temporary_path = Path(temporary_file.name)
+        temporary_file.close()
+        try:
+            _write_compatible_model_archive(model_path, temporary_path)
+            return tf.keras.models.load_model(temporary_path, compile=False)
+        finally:
+            temporary_path.unlink(missing_ok=True)
 
 
 class FirePredictor:
@@ -61,7 +125,7 @@ class FirePredictor:
         # TensorFlow is imported lazily so non-model unit tests stay lightweight.
         import tensorflow as tf
 
-        self.model = tf.keras.models.load_model(self.model_path)
+        self.model = _load_keras_model(tf, self.model_path)
         self.context_data = pd.read_csv(self.data_path)
 
     def get_context(self, row_index: int) -> ContextSnapshot:
